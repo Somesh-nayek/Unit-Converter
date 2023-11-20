@@ -57,97 +57,16 @@ fun UnitConverterPreview() {
 fun UnitConverter(){
     var inputValue by remember{ mutableStateOf("") }
     var outputValue by remember{ mutableStateOf("") }
-    var inputUnit by remember{ mutableStateOf("Centimetres") }
-    var outputUnit by remember{ mutableStateOf("Centimetres") }
+    var inputUnit by remember{ mutableStateOf("Metres") }
+    var outputUnit by remember{ mutableStateOf("Metres") }
     var iExpanded by remember{ mutableStateOf(false) }
     var oExpanded by remember{ mutableStateOf(true) }
     val conversionFactor = remember{ mutableStateOf(1.00) }
-    var inputExpression=1
-    var outputExpression=1
+    var oConversionFactor = remember{ mutableStateOf(1.00) }
 
     fun conversion(){
         val inputValueDouble=inputValue.toDoubleOrNull()?:0.00
-        if(inputExpression==1 && outputExpression==1){
-            conversionFactor.value = 1.00
-        }
-        else if(inputExpression==1 && outputExpression==2){
-            conversionFactor.value = 0.01
-        }
-        else if(inputExpression==1 && outputExpression==3){
-            conversionFactor.value = 0.10
-        }
-        else if(inputExpression==1 && outputExpression==4){
-            conversionFactor.value = 0.00001
-        }
-        else if(inputExpression==1 && outputExpression==5){
-            conversionFactor.value = 0.0328084
-        }
-
-        else if(inputExpression==2 && outputExpression==1){
-            conversionFactor.value = 100.00
-        }
-        else if(inputExpression==2 && outputExpression==2){
-            conversionFactor.value = 1.00
-        }
-        else if(inputExpression==2 && outputExpression==3){
-            conversionFactor.value = 10.00
-        }
-        else if(inputExpression==2 && outputExpression==4){
-            conversionFactor.value = 0.001
-        }
-        else if(inputExpression==2 && outputExpression==5){
-            conversionFactor.value = 3.28084
-        }
-
-        else if(inputExpression==3 && outputExpression==1){
-            conversionFactor.value = 10.00
-        }
-        else if(inputExpression==3 && outputExpression==2){
-            conversionFactor.value = 0.1
-        }
-        else if(inputExpression==3 && outputExpression==3){
-            conversionFactor.value = 1.00
-        }
-        else if(inputExpression==3 && outputExpression==4){
-            conversionFactor.value = 0.0001
-        }
-        else if(inputExpression==3 && outputExpression==5){
-            conversionFactor.value =0.328084
-        }
-
-        else if(inputExpression==4 && outputExpression==1){
-            conversionFactor.value = 100000.00
-        }
-        else if(inputExpression==4 && outputExpression==2){
-            conversionFactor.value = 1000.00
-        }
-        else if(inputExpression==4 && outputExpression==3){
-            conversionFactor.value = 10000.00
-        }
-        else if(inputExpression==4 && outputExpression==4){
-            conversionFactor.value = 1.00
-        }
-        else if(inputExpression==4 && outputExpression==5){
-            conversionFactor.value = 3280.84
-        }
-
-        else if(inputExpression==5 && outputExpression==1){
-            conversionFactor.value = 30.49
-        }
-        else if(inputExpression==5 && outputExpression==2){
-            conversionFactor.value = 0.3048
-        }
-        else if(inputExpression==5 && outputExpression==3){
-            conversionFactor.value = 3.048
-        }
-        else if(inputExpression==5 && outputExpression==4){
-            conversionFactor.value = 0.0003048
-        }
-        else if(inputExpression==5 && outputExpression==5){
-            conversionFactor.value = 1.00
-        }
-        val result=inputValueDouble*(conversionFactor.value)
-
+        val result=(inputValueDouble*(conversionFactor.value)*100/oConversionFactor.value)/100
         outputValue=result.toString()
     }
 
@@ -156,7 +75,8 @@ fun UnitConverter(){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "Unit converter")
+        Text(text = "Unit converter",
+        style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = inputValue,
@@ -180,35 +100,35 @@ fun UnitConverter(){
                         DropdownMenuItem(text = { Text(text = "Centimetres") }, onClick = {
                             iExpanded = false
                             inputUnit = "Centimetres"
-                            inputExpression = 1
+                            conversionFactor.value=0.01
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Metres") }, onClick = {
                             iExpanded = false
                             inputUnit = "Metres"
-                            inputExpression = 2
+                            conversionFactor.value=1.00
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Decimetres") }, onClick = {
                             iExpanded = false
                             inputUnit = "Decimetres"
-                            inputExpression = 3
+                            conversionFactor.value=0.1
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Kilometres") }, onClick = {
                             iExpanded = false
                             inputUnit = "Kilometres"
-                            inputExpression = 4
+                            conversionFactor.value=1000.00
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Feet") }, onClick = {
                             iExpanded = false
                             inputUnit = "Feet"
-                            inputExpression = 5
+                            conversionFactor.value=0.3048
                             conversion()
                         }
                         )
@@ -230,35 +150,35 @@ fun UnitConverter(){
                         DropdownMenuItem(text = { Text(text = "Centimetres") }, onClick = {
                             oExpanded = false
                             outputUnit = "Centimetres"
-                            outputExpression = 1
+                            oConversionFactor.value=0.01
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Metres") }, onClick = {
                             oExpanded = false
                             outputUnit = "Metres"
-                            outputExpression = 2
+                            oConversionFactor.value=1.00
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Decimetres") }, onClick = {
                             oExpanded = false
                             outputUnit = "Decimetres"
-                            outputExpression = 3
+                            oConversionFactor.value=0.10
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Kilometres") }, onClick = {
                             oExpanded = false
                             outputUnit = "Kilometres"
-                            outputExpression = 4
+                            oConversionFactor.value=1000.00
                             conversion()
                         })
 
                         DropdownMenuItem(text = { Text(text = "Feet") }, onClick = {
                             oExpanded = false
                             outputUnit = "Feet"
-                            outputExpression = 5
+                            oConversionFactor.value=0.3048
                             conversion()
                         }
                         )
@@ -268,7 +188,11 @@ fun UnitConverter(){
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Result:$outputValue")
+        //Result text
+        Text(text = "Result:$outputValue",
+            style = MaterialTheme.typography.headlineMedium
+            )
+
     }
 }
 
